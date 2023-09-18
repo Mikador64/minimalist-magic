@@ -7,5 +7,6 @@ Icon?
 ehthumbs.db
 desktop.ini
 Thumbs.db
+*.json
 *.sql
 *.tar.gz
