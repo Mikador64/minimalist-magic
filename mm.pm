@@ -11,10 +11,10 @@ package mm
 	use warnings;
 	use Data::Dumper;
 
-	use List::Util		q|shuffle|;
+	use List::Util q|shuffle|;
 
-	use feature			qw|say state|;
-	use List::Util		qw|shuffle|;
+	use feature qw|say state|;
+	use List::Util qw|shuffle|;
 	use Term::ANSIColor qw|:constants|;
 
 	use HTTP::Request::Common;;
