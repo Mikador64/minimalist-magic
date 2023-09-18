@@ -45,11 +45,11 @@ package mm
 
 	our $VERSION = '0.01';
 
-	# Configure Data::Dumper for prettier output
-	$Data::Dumper::Purity   = 1;  # To ensure the dumped data remains valid Perl code
-	$Data::Dumper::Indent   = 1;  # Use a readable (indented) style
-	$Data::Dumper::Sortkeys = 1;  # Sort harsh keys
-	$Data::Dumper::Terse	= 1;  # Avoids $VAR1 = at the beginning of the dump
+	# configure Data::Dumper for prettier output
+	$Data::Dumper::Purity   = 1;  # to ensure the dumped data remains valid Perl code
+	$Data::Dumper::Indent   = 1;  # use a readable (indented) style
+	$Data::Dumper::Sortkeys = 1;  # sort harsh keys
+	$Data::Dumper::Terse	= 1;  # avoids $VAR1 = at the beginning of the dump
 
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SUBS
 
@@ -202,7 +202,7 @@ package mm
 		my $final_form = '';
 		my $ua = LWP::UserAgent->new;
 
-		# Define the message array with just the user's question.
+		# define the message array with just the user's question
 		my @messages = (
 			{
 				role => "user",
@@ -210,7 +210,7 @@ package mm
 			}
 		);
 
-		# Define your JSON payload
+		# define JSON payload
 		my $json_payload = encode_json(
 		{
 			model => $openai->{model},
@@ -222,16 +222,16 @@ package mm
 			presence_penalty => $openai->{presence_penalty},
 		});
 
-		# Create an HTTP POST request
+		# dreate HTTP POST request
 		my $req = POST 'https://api.openai.com/v1/chat/completions',
 				'Content-Type' => 'application/json',
 				'Authorization' => 'Bearer '.$openai->{api},
 				Content => $json_payload;
 
-		# Send the request and get the response
+		# send the request and get the response
 		my $response = $ua->request($req);
 
-		# Check if the request is successful
+		# check if the request is successful
 		if ($response->is_success)
 		{
 			$final_form = ${\decode_json($response->content)}->{choices}[0]{message}->{content} . "\n";
@@ -244,7 +244,7 @@ package mm
 		}
 
 
-		# Print Results
+		# print results
 		chomp $final_form;
 		# $final_form =~ s`\n{2,}`\n`g;
 		$final_form =~ s`^\n|\n\Z``mg;
@@ -358,8 +358,3 @@ package mm
 }
 
 __END__
-perl -I. -Mmm -E ''
-
-# Bash
-export MM='/home/mike/git/minimalist-magic'
-alias p="perl -I'$MM' -Mmm -0777"
