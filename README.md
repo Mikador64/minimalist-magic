@@ -38,7 +38,23 @@ perl -I"$MM" -Mmm -e 'p q|> file: |,"YELLOW"' && read FILE && perl -I"$MM" -Mmm 
 - Read the provided file and apply a AI query to its content.
 - Print the processed content with a green color and then reset the color at the end.
 
-### Dependencies  
+### OpenAI Integration
+
+The config file **api.json** is required in the same folder of this package.
+
+```
+{
+    "api":"sk-ENTER-YOUR-OPENAI-API-KEY-HERE",
+    "model":"gpt-4",
+    "temperature":0,
+    "max_tokens":1000,
+    "top_p":1,
+    "frequency_penalty":0,
+    "presence_penalty":0
+}
+```
+
+### Package Dependencies  
 
 The script also uses several Perl modules such as:
 
