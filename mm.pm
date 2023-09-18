@@ -174,18 +174,7 @@ package mm
 		or do { p("> Can't open JSON so quitting!\n", 'RED'); exit 1; };
 
 		my $openai = decode_json(join '', <$fh>);
-
 		close $fh;
-
-		# Stop Sequence
-		if ($openai->{stop})
-		{
-			$openai->{stop} = [ split m`\|`, $openai->{stop} ];
-		}
-		else
-		{
-			$openai->{stop} = [ qw`[END] User: Q:` ];
-		}
 
 		$prompt =~ s`\n` `g;
 
@@ -212,8 +201,6 @@ package mm
 
 		my $final_form = '';
 		my $ua = LWP::UserAgent->new;
-
-
 
 		# Define the message array with just the user's question.
 		my @messages = (
@@ -270,25 +257,16 @@ package mm
 	sub askai()
 	{
 		print '> ask: ';
-		my $input = <>;
+		my $input = <STDIN>;
 		chomp($input);
 		my $response = ai($input);
-		p("$response\n");
+		p("$response\n", "GREEN");
 	}
 
 	sub dd($)
 	{
 		chomp (my $structure = shift);
 		say Dumper($structure);
-	}
-
-	sub bp()
-	{
-		my $export = q|export MM='$HOME/git/minimalist-magic'|;
-		my $alias  = q|alias p="perl -I'$MM' -Mmm -0777"|;
-
-		say $export;
-		say $alias;
 	}
 
 	sub bird($)
