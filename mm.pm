@@ -222,7 +222,7 @@ package mm
 			presence_penalty => $openai->{presence_penalty},
 		});
 
-		# dreate HTTP POST request
+		# create HTTP POST request
 		my $req = POST 'https://api.openai.com/v1/chat/completions',
 				'Content-Type' => 'application/json',
 				'Authorization' => 'Bearer '.$openai->{api},
