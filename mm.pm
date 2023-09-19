@@ -27,7 +27,7 @@ package mm
 
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT
 
-	my @subs = qw|p arch arsh arst typo ai askai dd bp bird pkg color nl o w|;
+	my @subs = qw|p arch arsh arst typo ai askai dd bp bird pkg color nl o w get zzz pr|;
 
 	require Exporter;
 	our @ISA = qw|Exporter|;
@@ -91,6 +91,19 @@ package mm
 		else
 		{
 			print RESET $text;	
+		}
+	}
+
+	# print alias
+	sub pr
+	{
+		if (@_)
+		{
+			print @_;
+		}
+		else
+		{
+			print $_;
 		}
 	}
 	
@@ -193,11 +206,18 @@ package mm
 					\p{Emoji}
 			)
 		~
-			$truncated .= $1 if ($n++ <= 4000);
+
+			if ($n++ <= 5000) { $truncated .= $1 }
+			goto ESCAPE if $n >= 5000;
 
 		~mergs;
 
-		$prompt = $truncated;
+		# debug stuff
+		# say length $truncated; exit;
+		# say $truncated; exit;
+		# say $n; exit;
+
+		ESCAPE: $prompt = $truncated;
 
 		my $final_form = '';
 		my $ua = LWP::UserAgent->new;
@@ -239,8 +259,8 @@ package mm
 		}
 		else
 		{
-			print "Error: " . $response->status_line . "\n";
-			# print "Error: ", Dumper $response;
+			print "AI Error: " . $response->status_line . "\n";
+			# print "AI Error: ", Dumper $response;
 		}
 
 
@@ -350,6 +370,43 @@ package mm
 
 		say $fh $content;
 	}
+
+	sub get($)
+	{
+		use URI;
+
+		chomp(my $url_ingest= shift);
+		my $url = URI->new($url_ingest);
+
+		my $ua = LWP::UserAgent->new(
+			timeout => 10,
+			max_redirect => 10
+		);
+		$ua->env_proxy;
+
+		my $response = $ua->get($url);
+
+		if ($response->is_success)
+		{
+			return $response->decoded_content;
+			# or: $response->content;
+		}
+		else
+		{
+			die $response->status_line;
+		}
+
+	}
+
+	sub zzz
+	{
+		my $rando = shift // 5;
+		my $fixed = shift // 0;
+
+		my $random = int(rand($rando)+1) + $fixed;
+		sleep $random;
+	}
+
 
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END
 
