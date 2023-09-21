@@ -1,0 +1,35 @@
+qr`
+    <nocontext:>
+    <Log>
+    # ~~~~~~~~~~~~~~~~~ RULES / TOKENS
+    <rule: Log> \A <[Blocked]>+ \Z
+
+    <rule: Blocked>
+            ^
+            <Date>
+            <_Wildcard>
+            <_Block>
+            <_Wildcard>
+            <IP>
+            <_Wildcard>
+            <Protocol>
+            <_Wildcard>
+            $
+
+    <rule: Date>
+            <Month>
+            # <require: (?{ $MATCH{Month}=fix_month($MATCH{Month}) })>
+            \s+
+            <Day>
+            \s+
+            <Time>
+
+    <token: Month> [A-Z][a-z]{2}
+    <token: Day>   \d{2}
+    <token: Time>  \d{2}:\d{2}:\d{2}
+
+    <rule: _Block> \[UFW \s BLOCK \]
+    <rule: IP> (?<=SRC=)\S+
+    <rule: Protocol> TCP|UDP
+    <rule: _Wildcard> .*?
+`xsm;

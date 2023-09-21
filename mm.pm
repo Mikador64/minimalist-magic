@@ -17,7 +17,7 @@ package mm
 	use List::Util qw|shuffle|;
 	use Term::ANSIColor qw|:constants|;
 
-	use HTTP::Request::Common;;
+	use HTTP::Request::Common;
 	use LWP::UserAgent;
 	use JSON::XS;
 
@@ -27,7 +27,7 @@ package mm
 
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT
 
-	my @subs = qw|p arch arsh arst typo ai askai dd bp bird pkg color nl o w get zzz pr|;
+	my @subs = qw|p arch arsh arst typo ai askai dd bp bird pkg color nl o w get zzz pr gram|;
 
 	require Exporter;
 	our @ISA = qw|Exporter|;
@@ -407,6 +407,37 @@ package mm
 		sleep $random;
 	}
 
+	sub gram($$)
+	{
+		use Regexp::Grammars;
+
+		my $grammar = shift;
+		my $text = shift;
+
+		$grammar = o $grammar;
+
+		eval
+		{
+			$grammar = eval $grammar;
+			1;
+
+		} or do
+		{
+			die RED "Error evaluating grammar: $@\n", RESET;
+		};
+
+		if ($text =~ $grammar)
+		{
+			my %construct = %/;
+			no Regexp::Grammars;
+			return %construct;
+		}
+		else
+		{
+			warn "failed to parse the log!\n";
+		}
+	}
+
 
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END
 
@@ -415,3 +446,5 @@ package mm
 }
 
 __END__
+Examples UFW Parse:
+p -0777 -nlE '%h = gram q|grammar-ufw-blocked.txt|, $_; say $h{Log}->{Blocked}->[0]->{IP};' /var/log/ufw.log
