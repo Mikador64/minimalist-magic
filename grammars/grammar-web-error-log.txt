@@ -1,0 +1,44 @@
+qr`
+    <nocontext:>
+    <Log>
+
+    <rule: Log> \A <[Error]>+ \Z
+
+    <rule: Error>
+            ^
+                \[<Date>\]
+
+                <_Wildcard>
+
+                \[<ErrorCode>\]
+
+                <_Wildcard>
+
+                \[pid <PID>\]
+
+                <_Wildcard>
+
+                \[client <Client>\]
+
+                <_Wildcard>
+
+                [[:alnum:]]+: <Message>
+            $
+
+    <rule: Date> <DOW>\s<Month>\s<Day>\s<Time>\.\S+\s<Year>
+    <token: DOW> \S+
+    <token: Month> \S+
+    <token: Day> \S+
+    <token: Time> \S+
+    <token: Year> [^\]]+
+
+    <rule: ErrorCode> \S+
+
+    <rule: PID> \S+
+
+    <rule: Client> \S+
+
+    <rule: Message> .*?
+
+    <rule: _Wildcard> .*?
+`xsm;
