@@ -27,7 +27,7 @@ package mm
 
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT
 
-	my @subs = qw|p arch arsh arst typo ai askai dd bp bird pkg color nl o w get zzz pr gram|;
+	my @subs = qw|p arch arsh arst typo ai askai dd bp bird pkg color nl o w get zzz pr gram jse jsd|;
 
 	require Exporter;
 	our @ISA = qw|Exporter|;
@@ -428,13 +428,23 @@ package mm
 
 		if ($text =~ $grammar)
 		{
-			my %construct = %/;
+			my %construct = %/; #/
 			no Regexp::Grammars;
 			return %construct;
 		}
 		else
 		{
 			warn "failed to parse the log!\n";
+		}
+
+		sub jse($)
+		{
+			return (encode_json (shift));
+		}
+
+		sub jsd($)
+		{
+			return (decode_json (shift));
 		}
 	}
 
