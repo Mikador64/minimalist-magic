@@ -133,6 +133,7 @@ sudo apt install cpanminus
 sudo cpanm HTTP::Request::Common
 sudo cpanm LWP::UserAgent
 sudo cpanm JSON::XS
+sudo cpanm Regexp::Grammars
 
 # Setup .bashrc
 perl -MCwd -E '$pwd = Cwd::getcwd(); $cmd = qq~export PATH=${pwd}:\$PATH\nexport MM=\x{27}${pwd}\x{27}\nalias p="perl -I\x{27}\$MM\x{27} -Mmm"~; say $cmd;' >> $HOME/.bashrc
