@@ -12,21 +12,27 @@ More robust documentation detailing its specific usage is coming soon.
 
 The package "mm" was developed to provide quick and efficient ways to perform certain tasks using command-line one-liners. This script comprises various subroutines, each designed to execute a specific tasks. These tasks include:
 
-- **p**: A print function with color control.
-- **arch**: Converts a string into an array of characters.
-- **arsh**: Shuffles an array.
-- **arst**: Converts an array back into a string.
-- **typo**: Applies a typoglycemia effect to a string.
-- **ai**: An AI function that uses the OpenAI API to generate responses.
-- **askai**: Asks a question to the AI function and prints the response.
-- **dd**: Uses Data::Dumper to print a data structure.
-- **bp**: Prints bash commands for setting up the environment.
-- **bird**: Applies a highlighting effect to a string.
-- **pkg**: Prints the contents of the %INC hash.
-- **color**: Prints a string in a specified color.
-- **nl**: Prints a newline.
-- **o**: Opens a file and returns its contents.
-- **w**: Writes content to a file.
+This Perl package contains the following subroutines:
+- `p`: This subroutine prints a string or an array reference. It also accepts an optional color control.
+- `pr`: This is an alias for the print function. It prints the contents of `@_` or `$_` if `@_` is empty.
+- `arch`: This subroutine splits a string into an array of characters.
+- `arsh`: This subroutine shuffles the elements of an array.
+- `arst`: This subroutine converts an array into a string. It accepts an array reference and an optional delimiter.
+- `typo`: This subroutine applies a typoglycemia effect to a string. It shuffles the characters of each word in the string, except for the first and last characters.
+- `ai`: This subroutine interacts with an AI model. It sends a prompt to the AI model and returns the AI's response.
+- `askai`: This subroutine prompts the user for a question, sends the question to the AI model, and prints the AI's response.
+- `dd`: This subroutine dumps the structure of a variable using the Data::Dumper module.
+- `bird`: This subroutine applies a bird effect to a string. It highlights a portion of each word in the string.
+- `pkg`: This subroutine dumps the contents of the `%INC` hash, which contains all the modules loaded by Perl.
+- `color`: This subroutine changes the color of the text.
+- `nl`: This subroutine prints a newline character.
+- `o`: This subroutine opens a file and returns its contents as a string.
+- `w`: This subroutine writes content to a file. It accepts a filename, content, and an optional operation ('a' for append).
+- `get`: This subroutine sends a GET request to a URL and returns the response.
+- `zzz`: This subroutine pauses the execution for a random number of seconds.
+- `gram`: This subroutine parses a text using a grammar. It accepts a grammar and a text, and returns a hash reference representing the parsed text.
+- `jse`: This subroutine encodes a Perl data structure into a JSON string.
+- `jsd`: This subroutine decodes a JSON string into a Perl data structure.
 
 ### Example
 
