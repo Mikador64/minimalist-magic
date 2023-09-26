@@ -430,22 +430,23 @@ package mm
 		{
 			my %construct = %/; #/
 			no Regexp::Grammars;
-			return %construct;
+			return \%construct;
 		}
 		else
 		{
 			warn "failed to parse the log!\n";
 		}
 
-		sub jse($)
-		{
-			return (encode_json (shift));
-		}
+	}
 
-		sub jsd($)
-		{
-			return (decode_json (shift));
-		}
+	sub jse($)
+	{
+		return (encode_json (shift));
+	}
+
+	sub jsd($)
+	{
+		return (decode_json (shift));
 	}
 
 
