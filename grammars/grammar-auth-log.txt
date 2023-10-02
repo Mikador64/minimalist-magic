@@ -1,0 +1,40 @@
+qr`
+    <nocontext:>
+    <Log>
+
+    <rule: Log> \A <[Auth]>+ \Z
+
+    <rule: Auth>
+            ^
+                <Date>
+
+                <_Wildcard>
+
+                \s
+
+                <host>
+
+                \s
+
+                <service>
+
+                \[<PID>\]:
+
+                <Message>
+
+               <_Wildcard>
+            $
+
+    <rule: Date> <Year>-<Month>-<Day>T<Time>
+    <token: Year> \d{4}
+    <token: Month> \d{2}
+    <token: Day> \d+
+    <token: Time> [^\.]+
+
+    <rule: host> \S+
+    <rule: service> [^\[]+
+    <rule: PID> \d+
+    <rule: Message> [^\n]+
+
+    <rule: _Wildcard> [^\n]+?
+`xsm;

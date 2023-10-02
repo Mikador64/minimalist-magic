@@ -56,55 +56,7 @@ package mm
 	# print
 	sub p
 	{
-		$" = ''; # "
-
-	   if (scalar @_ > 2)
-	   {
-		  say q|> |, RED UNDERLINE 'p() = only (string or anonymous array) and optional (color control) allowed.';
-		  exit 1;
-	   }
-
-		my $text;
-
-		if (ref($_[0]) eq 'ARRAY')
-		{
-			$text  = "@{ shift @_ }";
-		}
-		elsif ((defined $_[0] && ref($_[0]) eq ''))
-		{
-			$text =  shift;
-		}
-		else
-		{
-			say q|> |, RED UNDERLINE q|p() needs a array reference or string...|, RESET;
-			exit 1;
-		}
-
-		my $color = shift;
-		
-		if ($color)
-		{
-			$color = "\U$color\E";
-			my $print = qq|print ${color} \$text, RESET;|;
-			eval $print;
-		}
-		else
-		{
-			print RESET $text;	
-		}
-	}
-
-	# print alias
-	sub pr
-	{
-		if (@_)
-		{
-			print @_;
-		}
-		else
-		{
-			print $_;
-		}
+		print @_, RESET;
 	}
 	
 	# array from characters
@@ -166,6 +118,7 @@ package mm
 			@array = arsh([@array]);
 
 			$first . arst([@array]) . $last;
+
 		`ge;
 
 		return $text;
@@ -189,6 +142,7 @@ package mm
 		my $openai = decode_json(join '', <$fh>);
 		close $fh;
 
+		$prompt =~ s`[#]``g;
 		$prompt =~ s`\n` `g;
 
 		my $n = 0;
@@ -207,8 +161,8 @@ package mm
 			)
 		~
 
-			if ($n++ <= 5000) { $truncated .= $1 }
-			goto ESCAPE if $n >= 5000;
+			if ($n++ <= 4000) { $truncated .= $1 }
+			goto ESCAPE if $n >= 4000;
 
 		~mergs;
 
@@ -414,7 +368,19 @@ package mm
 		my $grammar = shift;
 		my $text = shift;
 
-		$grammar = o $grammar;
+		unless ($grammar and $text)
+		{
+			die RED 'Need $grammar and $text!', RESET "\n";
+		}
+
+		unless ($grammar =~ m`^qr`)
+		{
+			if (-f $grammar)
+			{
+				$grammar = o $grammar;
+			}
+
+		}
 
 		eval
 		{
@@ -459,3 +425,57 @@ package mm
 __END__
 Examples UFW Parse:
 p -0777 -nlE '%h = gram q|grammar-ufw-blocked.txt|, $_; say $h{Log}->{Blocked}->[0]->{IP};' /var/log/ufw.log
+
+
+sub p
+{
+	$" = ''; # "
+
+	if (scalar @_ > 2)
+	{
+		say q|> |, RED UNDERLINE 'p() = only (string or anonymous array) and optional (color control) allowed.';
+		exit 1;
+	}
+
+	my $text;
+
+	if (ref($_[0]) eq 'ARRAY')
+	{
+		$text  = "@{ shift @_ }";
+	}
+	elsif ((defined $_[0] && ref($_[0]) eq ''))
+	{
+		$text =  shift;
+	}
+	else
+	{
+		say q|> |, RED UNDERLINE q|p() needs a array reference or string...|, RESET;
+		exit 1;
+	}
+
+	my $color = shift;
+
+	if ($color)
+	{
+		$color = "\U$color\E";
+		my $print = qq|print ${color} \$text, RESET;|;
+		eval $print;
+	}
+	else
+	{
+		print RESET $text;
+	}
+}
+
+# print alias
+sub pr
+{
+	if (@_)
+	{
+		print @_;
+	}
+	else
+	{
+		print $_;
+	}
+}
