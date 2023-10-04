@@ -382,12 +382,7 @@ package mm
 
 		}
 
-		eval
-		{
-			$grammar = eval $grammar;
-			1;
-
-		} or do
+		$grammar = eval $grammar or do
 		{
 			die RED "Error evaluating grammar: $@\n", RESET;
 		};
@@ -401,6 +396,7 @@ package mm
 		else
 		{
 			warn "failed to parse the log!\n";
+			return 'FAIL';
 		}
 
 	}
@@ -425,57 +421,3 @@ package mm
 __END__
 Examples UFW Parse:
 p -0777 -nlE '%h = gram q|grammar-ufw-blocked.txt|, $_; say $h{Log}->{Blocked}->[0]->{IP};' /var/log/ufw.log
-
-
-sub p
-{
-	$" = ''; # "
-
-	if (scalar @_ > 2)
-	{
-		say q|> |, RED UNDERLINE 'p() = only (string or anonymous array) and optional (color control) allowed.';
-		exit 1;
-	}
-
-	my $text;
-
-	if (ref($_[0]) eq 'ARRAY')
-	{
-		$text  = "@{ shift @_ }";
-	}
-	elsif ((defined $_[0] && ref($_[0]) eq ''))
-	{
-		$text =  shift;
-	}
-	else
-	{
-		say q|> |, RED UNDERLINE q|p() needs a array reference or string...|, RESET;
-		exit 1;
-	}
-
-	my $color = shift;
-
-	if ($color)
-	{
-		$color = "\U$color\E";
-		my $print = qq|print ${color} \$text, RESET;|;
-		eval $print;
-	}
-	else
-	{
-		print RESET $text;
-	}
-}
-
-# print alias
-sub pr
-{
-	if (@_)
-	{
-		print @_;
-	}
-	else
-	{
-		print $_;
-	}
-}
