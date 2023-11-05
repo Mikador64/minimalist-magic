@@ -56,7 +56,14 @@ package mm
 	# print
 	sub p
 	{
-		print @_, RESET;
+		if (@_)
+		{
+			print @_, RESET;
+		}
+		else
+		{
+			print $_, RESET;
+		}
 	}
 	
 	# array from characters
